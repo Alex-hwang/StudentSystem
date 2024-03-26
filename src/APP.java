@@ -178,14 +178,48 @@ public class APP {
     }
 
     public static void login(ArrayList<User> list) {
-        System.out.print("请输入用户名：");
         Scanner sc = new Scanner(System.in);
+        System.out.print("请输入用户名：");
         String username = sc.next();
+        if (!isExists(list, username)) {
+            System.out.println("用户名" + username + "不存在，请重新输入");
+            return;
+        }
         System.out.println();
         System.out.print("请输入密码：");
         String password = sc.next();
         System.out.println();
 
+        while (true) {
+            String checkCode = generateCheckCode();
+            System.out.println("验证码：" + checkCode);
+            System.out.print("请输入验证码：");
+            String inputCheckCode = sc.next();
+            if (!checkCode.equalsIgnoreCase(inputCheckCode)) {
+                System.out.println("验证码错误");
+            } else {
+                System.out.println("验证码正确");
+                break;
+            }
+        }
+
+        User userInfo = new User(username, password, null, null);
+        if (checkUserInfo(list, userInfo)) {
+            System.out.println("登录成功");
+        } else {
+            System.out.println("登录失败");
+        }
+
+    }
+
+    private static boolean checkUserInfo(ArrayList<User> list, User userInfo) {
+        for (int i = 0; i < list.size(); i++) {
+            User u = list.get(i);
+            if (u.getUsername().equals(userInfo.getUsername()) && u.getPassword().equals(userInfo.getPassword())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static String generateCheckCode() {
