@@ -33,6 +33,28 @@ public class APP {
         Scanner sc = new Scanner(System.in);
         System.out.print("请输入用户名：");
         String username = sc.next();
+        //先验证格式是否正确
+        //再验证是否唯一
+        if(checkUserName(username)) {
+
+        }
+    }
+
+    private static boolean checkUserName(String username) {
+        int length = username.length();
+        if(length < 3 || length > 15) {
+            return false;
+        }
+
+        for(int i = 0; i < length; i++) {
+            char ch = username.charAt(i);
+            if(!((ch >= 'a' || ch >= 'z') && (ch >= 'A' || ch >= 'Z') && (ch >= '0' || ch >= '9'))) {
+                return false;
+            }
+        }
+
+
+        return false;
     }
 
     public static void login(ArrayList<User> list) {
