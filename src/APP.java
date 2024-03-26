@@ -15,7 +15,7 @@ public class APP {
                     System.exit(0);
                 }
                 case "1" -> login(list);
-                case "2" -> regiser(list);
+                case "2" -> register(list);
                 case "3" -> forgetPassword(list);
                 default -> System.out.println("输入有误，请重新输入");
             }
@@ -26,18 +26,38 @@ public class APP {
 
     }
 
-    private static void regiser(ArrayList<User> list) {
+    private static void register(ArrayList<User> list) {
         System.out.println("注册");
         User u = new User();
 
         Scanner sc = new Scanner(System.in);
-        System.out.print("请输入用户名：");
-        String username = sc.next();
-        //先验证格式是否正确
-        //再验证是否唯一
-        if(checkUserName(username)) {
-
+        while (true) {
+            System.out.print("请输入用户名：");
+            String username = sc.next();
+            //先验证格式是否正确
+            //再验证是否唯一
+            if(!checkUserName(username)) {
+                System.out.println("用户名格式不正确,请重新输入!");
+                continue;
+            }
+            if(isExists(list, username)) {
+                System.out.println("用户名已存在,请重新输入!");
+            } else {
+                u.setUsername(username);
+                break;
+            }
         }
+    }
+
+    private static boolean isExists(ArrayList<User> list, String username) {
+        for (int i = 0; i < list.size(); i++) {
+            User u = list.get(i);
+            String rightUsername = u.getUsername();
+            if(rightUsername.equals(username)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     private static boolean checkUserName(String username) {
@@ -48,13 +68,20 @@ public class APP {
 
         for(int i = 0; i < length; i++) {
             char ch = username.charAt(i);
-            if(!((ch >= 'a' || ch >= 'z') && (ch >= 'A' || ch >= 'Z') && (ch >= '0' || ch >= '9'))) {
+            if(!((ch >= 'a' && ch <= 'z') || (ch >= 'A' && ch <= 'Z') || (ch >= '0' && ch <= '9'))) {
                 return false;
             }
         }
 
-
-        return false;
+        int count = 0;
+        for(int i = 0; i < length; i++) {
+            char ch = username.charAt(i);
+            if(ch >= '0' && ch <= '9') {
+                count++;
+                break;
+            }
+        }
+        return count > 0;
     }
 
     public static void login(ArrayList<User> list) {
