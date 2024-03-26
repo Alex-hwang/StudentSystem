@@ -179,37 +179,42 @@ public class APP {
 
     public static void login(ArrayList<User> list) {
         Scanner sc = new Scanner(System.in);
-        System.out.print("请输入用户名：");
-        String username = sc.next();
-        if (!isExists(list, username)) {
-            System.out.println("用户名" + username + "不存在，请重新输入");
-            return;
-        }
-        System.out.println();
-        System.out.print("请输入密码：");
-        String password = sc.next();
-        System.out.println();
+        for (int i = 0; i < 3; i++) {
+            System.out.print("请输入用户名：");
+            String username = sc.next();
+            if (!isExists(list, username)) {
+                System.out.println("用户名" + username + "不存在，请重新输入");
+                return;
+            }
+            System.out.println();
+            System.out.print("请输入密码：");
+            String password = sc.next();
+            System.out.println();
 
-        while (true) {
-            String checkCode = generateCheckCode();
-            System.out.println("验证码：" + checkCode);
-            System.out.print("请输入验证码：");
-            String inputCheckCode = sc.next();
-            if (!checkCode.equalsIgnoreCase(inputCheckCode)) {
-                System.out.println("验证码错误");
+            while (true) {
+                String checkCode = generateCheckCode();
+                System.out.println("验证码：" + checkCode);
+                System.out.print("请输入验证码：");
+                String inputCheckCode = sc.next();
+                if (!checkCode.equalsIgnoreCase(inputCheckCode)) {
+                    System.out.println("验证码错误");
+                } else {
+                    System.out.println("验证码正确");
+                    break;
+                }
+            }
+
+            User userInfo = new User(username, password, null, null);
+            if (checkUserInfo(list, userInfo)) {
+                System.out.println("登录成功");
             } else {
-                System.out.println("验证码正确");
-                break;
+                System.out.println("登录失败");
+                if (i == 2) {
+                    System.out.println("您已经连续3次输入错误，账号已锁定，请联系管理员");
+                    return;
+                }
             }
         }
-
-        User userInfo = new User(username, password, null, null);
-        if (checkUserInfo(list, userInfo)) {
-            System.out.println("登录成功");
-        } else {
-            System.out.println("登录失败");
-        }
-
     }
 
     private static boolean checkUserInfo(ArrayList<User> list, User userInfo) {
