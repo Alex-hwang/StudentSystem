@@ -60,15 +60,48 @@ public class APP {
                 break;
             }
         }
-        
-        System.out.print("请输入身份证号：");
-        String idNumber = sc.next();
-        if(checkUserId(idNumber)) {
-            System.out.println("身份证号" + idNumber + "格式正确");
-        } else {
-            System.out.println("身份证号格式不正确，请重新输入");
+
+        while (true) {
+            System.out.print("请输入身份证号：");
+            String idNumber = sc.next();
+            if (checkUserId(idNumber)) {
+                System.out.println("身份证号" + idNumber + "格式正确");
+                break;
+            } else {
+                System.out.println("身份证号格式不正确，请重新输入");
+            }
         }
 
+        while (true) {
+            System.out.print("请输入手机号：");
+            String phoneNumber = sc.next();
+            if (checkPhoneNumber(phoneNumber)) {
+                System.out.println("手机号" + phoneNumber + "格式正确");
+                break;
+            } else {
+                System.out.println("手机号格式不正确，请重新输入");
+            }
+        }
+
+    }
+
+    private static boolean checkPhoneNumber(String phoneNumber) {
+        int length = phoneNumber.length();
+        if (length != 11) {
+            return false;
+        }
+
+        if (!phoneNumber.startsWith("1")) {
+            return false;
+        }
+
+        for (int i = 0; i < length; i++) {
+            char ch = phoneNumber.charAt(i);
+            if (ch < '0' || ch > '9') {
+                return false;
+            }
+        }
+        return true;
     }
 
     private static boolean checkUserId(String idNumber) {
