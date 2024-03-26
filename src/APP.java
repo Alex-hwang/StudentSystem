@@ -43,10 +43,53 @@ public class APP {
             if(isExists(list, username)) {
                 System.out.println("用户名已存在,请重新输入!");
             } else {
-                u.setUsername(username);
+                System.out.println("用户名" + username + "可用");
                 break;
             }
         }
+
+        while (true) {
+            System.out.print("请输入密码：");
+            String password = sc.next();
+            System.out.print("请确认密码：");
+            String confirmPassword = sc.next();
+            if(!password.equals(confirmPassword)) {
+                System.out.println("两次密码不一致，请重新输入");
+            } else {
+                System.out.println("密码设置成功");
+                break;
+            }
+        }
+        
+        System.out.print("请输入身份证号：");
+        String idNumber = sc.next();
+        if(checkUserId(idNumber)) {
+            System.out.println("身份证号" + idNumber + "格式正确");
+        } else {
+            System.out.println("身份证号格式不正确，请重新输入");
+        }
+
+    }
+
+    private static boolean checkUserId(String idNumber) {
+        int length = idNumber.length();
+        if(length != 18) {
+            return false;
+        }
+        
+        if(idNumber.startsWith("0")) {
+            return false;
+        }
+
+        for(int i = 0; i < length - 1; i++) {
+            char ch = idNumber.charAt(i);
+            if(ch < '0' || ch > '9') {
+                return false;
+            }
+        }
+
+        char ch = idNumber.charAt(length - 1);
+        return ch >= '0' && (ch <= '9' || ch == 'X' || ch == 'x');
     }
 
     private static boolean isExists(ArrayList<User> list, String username) {
