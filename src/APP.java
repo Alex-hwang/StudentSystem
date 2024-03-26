@@ -212,6 +212,8 @@ public class APP {
                 if (i == 2) {
                     System.out.println("您已经连续3次输入错误，账号已锁定，请联系管理员");
                     return;
+                } else {
+                    System.out.println("您还有" + (2 - i) + "次机会");
                 }
             }
         }
