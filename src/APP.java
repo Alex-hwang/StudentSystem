@@ -28,12 +28,15 @@ public class APP {
 
     private static void register(ArrayList<User> list) {
         System.out.println("注册");
-        User u = new User();
+        String username;
+        String password;
+        String idNumber;
+        String phoneNumber;
 
         Scanner sc = new Scanner(System.in);
         while (true) {
             System.out.print("请输入用户名：");
-            String username = sc.next();
+            username = sc.next();
             //先验证格式是否正确
             //再验证是否唯一
             if(!checkUserName(username)) {
@@ -50,7 +53,7 @@ public class APP {
 
         while (true) {
             System.out.print("请输入密码：");
-            String password = sc.next();
+            password = sc.next();
             System.out.print("请确认密码：");
             String confirmPassword = sc.next();
             if(!password.equals(confirmPassword)) {
@@ -63,7 +66,7 @@ public class APP {
 
         while (true) {
             System.out.print("请输入身份证号：");
-            String idNumber = sc.next();
+            idNumber = sc.next();
             if (checkUserId(idNumber)) {
                 System.out.println("身份证号" + idNumber + "格式正确");
                 break;
@@ -74,7 +77,7 @@ public class APP {
 
         while (true) {
             System.out.print("请输入手机号：");
-            String phoneNumber = sc.next();
+            phoneNumber = sc.next();
             if (checkPhoneNumber(phoneNumber)) {
                 System.out.println("手机号" + phoneNumber + "格式正确");
                 break;
@@ -83,6 +86,19 @@ public class APP {
             }
         }
 
+        User user = new User(username, password, idNumber, phoneNumber);
+        list.add(user);
+        System.out.println("注册成功");
+
+        printList(list);
+
+    }
+
+    private static void printList(ArrayList<User> list) {
+        for (int i = 0; i < list.size(); i++) {
+            User u = list.get(i);
+            System.out.println("用户名：" + u.getUsername() + "\t密码：" + u.getPassword() + "\t身份证号：" + u.getIdNumber() + "\t手机号：" + u.getPhoneNumber());
+        }
     }
 
     private static boolean checkPhoneNumber(String phoneNumber) {
