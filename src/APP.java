@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Random;
 import java.util.Scanner;
 
 public class APP {
@@ -184,5 +185,34 @@ public class APP {
         System.out.print("请输入密码：");
         String password = sc.next();
         System.out.println();
+
+    }
+
+    public static String generateCheckCode() {
+        //创建集合
+        ArrayList<Character> list = new ArrayList<>();
+        for (int i = 0; i < 26; i++) {
+            list.add((char) ('a' + i));
+            list.add((char) ('A' + i));
+        }
+
+        StringBuilder sb = new StringBuilder();
+        //随机生成4个字符
+        Random r = new Random();
+        for (int i = 0; i < 4; i++) {
+            int index = r.nextInt(list.size());
+            char c = list.get(index);
+            sb.append(c);
+        }
+        int number = r.nextInt(10);
+        sb.append(number);
+        char[] arr = sb.toString().toCharArray();
+        int randomIndex = r.nextInt(arr.length);
+
+        char temp = arr[randomIndex];
+        arr[randomIndex] = arr[arr.length - 1];
+        arr[arr.length - 1] = temp;
+
+        return new String(arr);
     }
 }
