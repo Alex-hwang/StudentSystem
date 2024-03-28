@@ -24,7 +24,47 @@ public class APP {
     }
 
     private static void forgetPassword(ArrayList<User> list) {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("请输入用户名：");
+        String username = sc.next();
+        if (!isExists(list, username)) {
+            System.out.println("用户名" + username + "不存在，请重新输入");
+            return;
+        }
+        System.out.print("请输入身份证号：");
+        String idNumber = sc.next();
+        if (!checkUserId(idNumber)) {
+            System.out.println("身份证号格式不正确，请重新输入");
+            return;
+        }
+        System.out.print("请输入手机号：");
+        String phoneNumber = sc.next();
+        if (!checkPhoneNumber(phoneNumber)) {
+            System.out.println("手机号格式不正确，请重新输入");
+            return;
+        }
 
+        int index = findIndex(list, username);
+        User user = list.get(index);
+        if (user.getIdNumber().equals(idNumber) && user.getPhoneNumber().equals(phoneNumber)) {
+            System.out.println("验证成功");
+            System.out.print("请输入新密码：");
+            String newPassword = sc.next();
+            user.setPassword(newPassword);
+            System.out.println("密码修改成功");
+        } else {
+            System.out.println("验证失败");
+        }
+    }
+
+    private static int findIndex(ArrayList<User> list, String username) {
+        for (int i = 0; i < list.size(); i++) {
+            User u = list.get(i);
+            if (u.getUsername().equals(username)) {
+                return i;
+            }
+        }
+        return -1;
     }
 
     private static void register(ArrayList<User> list) {
